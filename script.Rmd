@@ -1,1 +1,41 @@
+## packages
+
+```{r}
+library(tidyverse)
+library(rvest)
+source("functions.R")
+```
+
+leagues to get (comment out to omit)
+
+`omit` is TRUE if you want to omit the possibility of a draw (eg for knockout games where the only possible draw is if it goes to penalties).
+
+```{r}
+leagues <- tribble(
+  ~sheet_url, ~short, ~omit,
+#  "https://www.oddschecker.com/football/english/fa-cup", "enf", TRUE,
+  # "https://www.oddschecker.com/football/champions-league", "euc", TRUE,
+  # "https://www.oddschecker.com/football/europa-league", "eue", FALSE,
+  "https://www.oddschecker.com/football/euro-2020", "ec", FALSE
+)
+leagues
+```
+
+run for all leagues
+
+`discount` is the multiplier for draw probability, eg something like 0.95 
+
+```{r}
+discount <- 0.9
+leagues %>% 
+  rowwise() %>% 
+  mutate(p = list(make_prob_df(sheet_url, discount))) %>% 
+  unnest(p) %>% 
+  select(short, game, starts_with("prob"))
+```
+
+
+```{r}
+poiss_probs(2,2)
+```
 

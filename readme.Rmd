@@ -1,0 +1,39 @@
+
+# R project for converting bookmaker odds to probabilities to Poisson goalscoring means
+
+Functions are in the file `functions.R`.
+
+## packages
+
+```{r}
+library(tidyverse)
+library(rvest)
+source("functions.R")
+```
+
+Make a dataframe of competitions to get. These are samples; you can add others. (I wrote this during the delayed Euro 2020.) The column `short` appears in the output, rather than the long URL.
+
+```{r}
+leagues <- tribble(
+  ~sheet_url, ~short,
+#  "https://www.oddschecker.com/football/english/fa-cup", "enf", 
+  # "https://www.oddschecker.com/football/champions-league", "euc", 
+  # "https://www.oddschecker.com/football/europa-league", "eue", 
+  "https://www.oddschecker.com/football/euro-2020", "ec", 
+)
+leagues
+```
+
+run for all leagues
+
+```{r, warning=FALSE}
+make_lambdas(leagues) %>% knitr::kable()
+```
+
+The bookies' probability of a draw is near 30% for evenly-matched teams, which seems too high. Maybe also the Poisson means are too low. Using a discount like 0.9 makes the draw probability lower and also makes the means higher (it makes the draw probability 90% of what it was, and rescales the other probabilities in proportion):
+
+```{r, warning=FALSE}
+make_lambdas(leagues, discount = 0.9) %>% knitr::kable()
+```
+
+The means are now a bit higher.
