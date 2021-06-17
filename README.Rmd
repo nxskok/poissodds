@@ -1,4 +1,8 @@
 
+output: github_document
+--- 
+
+
 # R project for converting bookmaker odds to probabilities to Poisson goalscoring means
 
 Functions are in the file `functions.R`.
