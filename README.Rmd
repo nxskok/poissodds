@@ -1,6 +1,9 @@
-
-output: github_document
---- 
+---
+title: "Odds to probs to Poisson means"
+author: "Ken"
+date: "16/06/2021"
+output: github_document 
+---
 
 
 # R project for converting bookmaker odds to probabilities to Poisson goalscoring means
